@@ -1,0 +1,19 @@
+<!-- src/app/components/item-list/item-list.component.html -->
+<div>
+    <h2>Item List</h2>
+    <ul>
+      <li *ngFor="let item of items">
+        {{ item.name }}: {{ item.description }}
+      </li>
+    </ul>
+  
+    <h3>Add New Item</h3>
+    <input #name placeholder="Name">
+    <input #description placeholder="Description">
+    <button (click)="addItem(name.value, description.value)">Add Item</button>
+  
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  </div>
+  
