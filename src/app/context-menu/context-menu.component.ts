@@ -1,8 +1,9 @@
+// src/app/components/context-menu/context-menu.component.ts
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { IdeaFormComponent } from '../idea-form/idea-form.component';
-import { MatDialog } from '@angular/material/dialog';
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -14,19 +15,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class ContextMenuComponent {
   @Output() close = new EventEmitter<void>();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private itemService: ItemService) {}
 
   addIdea() {
     const dialogRef = this.dialog.open(IdeaFormComponent, {
       width: '250px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Logic to handle the added idea
-        console.log('The idea:', result);
-      }
-      this.close.emit();
     });
   }
 
@@ -35,13 +28,11 @@ export class ContextMenuComponent {
   }
 
   editIdea() {
-    // Logic to handle the edit idea
     console.log('Edit idea');
     this.close.emit();
   }
 
   deleteIdea() {
-    // Logic to handle the delete idea
     console.log('Delete idea');
     this.close.emit();
   }

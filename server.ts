@@ -25,12 +25,16 @@ export function app(): express.Express {
     index: 'index.html',
   }));
 
+  
+
+  
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
     commonEngine
       .render({
+        
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
@@ -43,6 +47,8 @@ export function app(): express.Express {
 
   return server;
 }
+
+
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
