@@ -1,13 +1,14 @@
 <div (contextmenu)="onRightClick($event)" style="height: 100vh; width: 100vw; position: relative;">
-    <!-- Your main content here -->
-     
+  <!-- Show only login component when on the login route -->
+  <router-outlet *ngIf="isLoginRoute"></router-outlet>
+  
+  <!-- Show main application components when logged in and not on the login route -->
+  <ng-container *ngIf="!isLoginRoute && (isLoggedIn$ | async)">
     <router-outlet></router-outlet>
     <app-item-list></app-item-list>
-    
     <app-context-menu *ngIf="contextMenuVisible"
       [ngStyle]="{'--x': contextMenuPosition.x + 'px', '--y': contextMenuPosition.y + 'px'}"
       (close)="contextMenuVisible = false">
     </app-context-menu>
-  </div>
-  
-  
+  </ng-container>
+</div>

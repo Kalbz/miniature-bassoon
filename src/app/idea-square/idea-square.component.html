@@ -1,5 +1,14 @@
 <div class="idea-square">
-    <h3>{{ item.name }}</h3>
-    <p>{{ item.description }}</p>
-  </div>
-  
+  <h3>{{ item.name }}</h3>
+  <p>{{ item.description }}</p>
+  <p *ngIf="item.tags && item.tags.length > 0">
+    <strong>Tags:</strong>
+    <span *ngFor="let tag of item.tags" class="tag">{{ tag }}</span>
+  </p>
+  <p *ngIf="item.emoji">
+    <span class="emoji">{{ item.emoji }}</span>
+  </p>
+  <p>
+    <strong>Upvotes:</strong> {{ item.upvotes }}
+  </p>
+</div>

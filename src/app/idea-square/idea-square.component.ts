@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-idea-square',
   standalone: true,
-  imports: [],
   templateUrl: './idea-square.component.html',
-  styleUrl: './idea-square.component.scss'
+  styleUrls: ['./idea-square.component.scss'],
+  imports: [CommonModule]
 })
 export class IdeaSquareComponent {
   @Input() item: any;
-
 }

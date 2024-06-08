@@ -8,6 +8,18 @@ const itemSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true
+  },
+  upvotes: {
+    type: Number,
+    default: 0
+  },
+  categories: {
+    type: [String], // Array of strings to store multiple categories
+    required: true
+  },
+  emoji: {
+    type: String, // Unicode or short code for an emoji
+    default: ''
   }
 });
 

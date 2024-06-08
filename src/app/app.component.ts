@@ -1,8 +1,8 @@
-import { Component, inject, HostListener } from '@angular/core';
+import { Component, inject, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ItemListComponent } from './item-list/item-list.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, Router, Event, NavigationEnd } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { importProvidersFrom } from '@angular/core';
@@ -10,7 +10,8 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { firebaseConfig } from '../environments/firebase.config';
 import { AuthService } from './auth.service';
-
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,27 @@ import { AuthService } from './auth.service';
   imports: [CommonModule, ContextMenuComponent, ItemListComponent, RouterOutlet, RouterLink],
   providers: [AuthService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   contextMenuVisible = false;
   contextMenuPosition = { x: 0, y: 0 };
+  isLoggedIn$: Observable<boolean>;
+  isLoginRoute: boolean = false;
+
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+  }
+
+  ngOnInit() {
+    this.router.events.pipe(
+      filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.isLoginRoute = event.url === '/login';
+    });
+  }
 
   onRightClick(event: MouseEvent) {
     event.preventDefault();
