@@ -1,13 +1,10 @@
 <div>
-    <h2>Item List</h2>
-    <ul>
-      <li *ngFor="let item of items">
-        {{ item.name }}: {{ item.description }}
-      </li>
-    </ul>
-  
-    <div *ngIf="errorMessage" class="error">
-      {{ errorMessage }}
-    </div>
+  <h2>Item List</h2>
+  <div class="items-grid">
+    <app-idea-square *ngFor="let item of items" [item]="item"></app-idea-square>
   </div>
-  
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+</div>

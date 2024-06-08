@@ -1,0 +1,11 @@
+.items-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .items-grid app-idea-square {
+    flex: 1 1 calc(33.333% - 16px); /* Adjust the percentage as needed */
+    box-sizing: border-box;
+  }
+  

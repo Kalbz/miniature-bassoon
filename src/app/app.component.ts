@@ -1,8 +1,15 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ItemListComponent } from './item-list/item-list.component';
-
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { importProvidersFrom } from '@angular/core';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { firebaseConfig } from '../environments/firebase.config';
+import { AuthService } from './auth.service';
 
 
 @Component({
@@ -10,9 +17,11 @@ import { ItemListComponent } from './item-list/item-list.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, ContextMenuComponent, ItemListComponent]
+  imports: [CommonModule, ContextMenuComponent, ItemListComponent, RouterOutlet, RouterLink],
+  providers: [AuthService]
 })
 export class AppComponent {
+
   contextMenuVisible = false;
   contextMenuPosition = { x: 0, y: 0 };
 

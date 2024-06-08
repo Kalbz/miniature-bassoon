@@ -7,11 +7,12 @@ import { ItemService } from '../item.service';
 import { interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { IdeaSquareComponent } from '../idea-square/idea-square.component';
 
 @Component({
   selector: 'app-item-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, IdeaSquareComponent, HttpClientModule],
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
   providers: [ItemService]

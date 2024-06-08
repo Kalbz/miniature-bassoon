@@ -1,5 +1,7 @@
 <div (contextmenu)="onRightClick($event)" style="height: 100vh; width: 100vw; position: relative;">
     <!-- Your main content here -->
+     
+    <router-outlet></router-outlet>
     <app-item-list></app-item-list>
     
     <app-context-menu *ngIf="contextMenuVisible"
