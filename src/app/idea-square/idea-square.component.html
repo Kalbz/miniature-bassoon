@@ -1,4 +1,4 @@
-<div class="idea-square">
+<div class="idea-square" [ngStyle]="{'background-color': randomColor}">
   <h3>{{ item.name }}</h3>
   <p>{{ item.description }}</p>
   <p *ngIf="item.tags && item.tags.length > 0">

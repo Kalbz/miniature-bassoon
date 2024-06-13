@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,6 +8,24 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./idea-square.component.scss'],
   imports: [CommonModule]
 })
-export class IdeaSquareComponent {
+export class IdeaSquareComponent implements OnInit {
   @Input() item: any;
+  randomColor: string;
+
+  constructor() {
+    this.randomColor = this.getRandomColor();
+  }
+
+  ngOnInit() {
+    this.randomColor = this.getRandomColor();
+  }
+
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 }
