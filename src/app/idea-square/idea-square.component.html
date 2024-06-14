@@ -11,4 +11,12 @@
   <p>
     <strong>Upvotes:</strong> {{ item.upvotes }}
   </p>
+  <div class="vote-buttons">
+    <button (click)="upvote()">
+      <img src="../assets/icons/upvote-svgrepo-com.svg" alt="Upvote" />
+    </button>
+    <button (click)="downvote()">
+      <img src="../assets/icons/downvote-svgrepo-com.svg" alt="Downvote" />
+    </button>
+  </div>
 </div>

@@ -1,31 +1,42 @@
 .idea-square {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 8px 0;
-    text-align: center;
-    background-color: #f9f9f9;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 8px 0;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 
-    .tag {
-      background-color: #e0e0e0;
-      border-radius: 4px;
-      padding: 2px 8px;
-      margin-right: 4px;
-      display: inline-block;
-    }
-  
-  
-    .emoji {
-      font-size: 24px;
-    }
+  .tag {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-right: 4px;
+    display: inline-block;
   }
-  
-  .idea-square h3 {
+
+  .emoji {
+    font-size: 24px;
+  }
+
+  h3 {
     margin: 0 0 8px;
   }
-  
 
+  .vote-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
 
-  
-  
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}

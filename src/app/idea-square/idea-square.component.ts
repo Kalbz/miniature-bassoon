@@ -28,4 +28,12 @@ export class IdeaSquareComponent implements OnInit {
     }
     return color;
   }
+
+  upvote() {
+    this.item.upvotes++;
+  }
+
+  downvote() {
+    this.item.upvotes--;
+  }
 }
