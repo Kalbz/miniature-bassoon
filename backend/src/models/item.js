@@ -20,6 +20,10 @@ const itemSchema = new mongoose.Schema({
   emoji: {
     type: String, // Unicode or short code for an emoji
     default: ''
+  },
+  color: {
+    type: String, // Hexadecimal color code
+    default: '#000000'
   }
 });
 

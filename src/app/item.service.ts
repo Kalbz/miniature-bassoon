@@ -24,5 +24,15 @@ export class ItemService {
     );
   }
 
-  
+  updateItem(item: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${item.id}`, item);
+  }
+
+  upvoteItem(id: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/upvote`, {});
+  }
+
+  downvoteItem(id: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/downvote`, {});
+  }
 }

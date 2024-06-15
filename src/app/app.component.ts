@@ -12,6 +12,8 @@ import { firebaseConfig } from '../environments/firebase.config';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { getRedirectResult } from 'firebase/auth';
+
 
 @Component({
   selector: 'app-root',

@@ -1,7 +1,8 @@
+<!-- src/app/login/login.component.html -->
 <h1>Login</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div>
-    <input type="email" formControlName="email" placeholder="Username">
+    <input type="email" formControlName="email" placeholder="Email">
   </div>
   <div>
     <input type="password" formControlName="password" placeholder="Password">
@@ -9,6 +10,12 @@
   <div>
     <button type="submit">Login</button>
   </div>
+</form>
+
 <div *ngIf="errorMessage">
   <div>{{ errorMessage }}</div>
+</div>
 
+<div>
+  <button (click)="loginWithGoogle()">Login with Google</button>
+</div>

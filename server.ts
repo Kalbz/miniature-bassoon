@@ -17,24 +17,28 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  // Add headers before the routes are defined
+  server.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    next();
+  });
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
+
   // Serve static files from /browser
-  server.get('**', express.static(browserDistFolder, {
+  server.get('*.*', express.static(browserDistFolder, {
     maxAge: '1y',
-    index: 'index.html',
+    index: false,
   }));
 
-  
-
-  
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
     commonEngine
       .render({
-        
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
@@ -47,8 +51,6 @@ export function app(): express.Express {
 
   return server;
 }
-
-
 
 function run(): void {
   const port = process.env['PORT'] || 4000;

@@ -41,4 +41,15 @@ export class LoginComponent {
         }
       });
   }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle().subscribe({
+      next: () => {
+        this.router.navigateByUrl('/protected'); // Redirect to protected route after login
+      },
+      error: (err) => {
+        this.errorMessage = err.code;
+      }
+    });
+  }
 }

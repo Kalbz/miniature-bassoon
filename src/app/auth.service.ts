@@ -1,9 +1,9 @@
 // auth.service.ts
 import { Injectable, inject } from '@angular/core';
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
 import { Auth, user } from '@angular/fire/auth';
-import { Observable, from, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, from, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +18,37 @@ export class AuthService {
       password
     ).then(response => updateProfile(response.user, { displayName: username }));
 
-    return from(promise);
+    return from(promise).pipe(
+      catchError((error) => {
+        console.error('Registration error:', error);
+        return throwError(error);
+      })
+    );
   }
 
   login(email: string, password: string): Observable<void> {
-     const promise = signInWithEmailAndPassword(
+    const promise = signInWithEmailAndPassword(
       this.firebaseAuth, 
       email, 
-      password,
-     ).then(() => {});
-     return from(promise);
+      password
+    ).then(() => {});
+    return from(promise).pipe(
+      catchError((error) => {
+        console.error('Login error:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  loginWithGoogle(): Observable<void> {
+    const provider = new GoogleAuthProvider();
+    const promise = signInWithPopup(this.firebaseAuth, provider).then(() => {});
+    return from(promise).pipe(
+      catchError((error) => {
+        console.error('Google login error:', error);
+        return throwError(error);
+      })
+    );
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -38,6 +59,11 @@ export class AuthService {
 
   logout(): Observable<void> {
     const promise = this.firebaseAuth.signOut();
-    return from(promise);
+    return from(promise).pipe(
+      catchError((error) => {
+        console.error('Logout error:', error);
+        return throwError(error);
+      })
+    );
   }
 }

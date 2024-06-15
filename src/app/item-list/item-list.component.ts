@@ -1,4 +1,3 @@
-// src/app/components/item-list/item-list.component.ts
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +19,7 @@ import { IdeaSquareComponent } from '../idea-square/idea-square.component';
 export class ItemListComponent implements OnInit {
   items: any[] = [];
   errorMessage: string = '';
+  itemColors = new Map<string, string>(); // Map to store random colors for items
 
   constructor(
     private itemService: ItemService,
@@ -31,6 +31,7 @@ export class ItemListComponent implements OnInit {
     this.itemService.getItems().subscribe(
       data => {
         this.items = data;
+        this.assignColors(); // Assign colors on initial load
         console.log('Items:', this.items);
 
         // Start polling after initial load
@@ -53,11 +54,33 @@ export class ItemListComponent implements OnInit {
     ).subscribe({
       next: items => {
         this.items = items;
+        this.assignColors(); // Reassign colors if new items are added
       },
       error: error => {
         this.errorMessage = 'Failed to load items from the backend';
         console.error('Error:', error);
       }
     });
+  }
+
+  assignColors(): void {
+    this.items.forEach(item => {
+      if (!this.itemColors.has(item._id)) {
+        this.itemColors.set(item._id, this.getRandomColor());
+      }
+    });
+  }
+
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  getItemColor(itemId: string): string {
+    return this.itemColors.get(itemId) || '#FFFFFF'; // Default to white if no color found
   }
 }

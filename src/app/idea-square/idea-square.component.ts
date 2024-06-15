@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-idea-square',
@@ -10,30 +11,21 @@ import { CommonModule } from '@angular/common';
 })
 export class IdeaSquareComponent implements OnInit {
   @Input() item: any;
-  randomColor: string;
+  @Input() color: string = '#FFFFFF'; // Default to white
 
-  constructor() {
-    this.randomColor = this.getRandomColor();
-  }
+  constructor(private itemService: ItemService) {}
 
-  ngOnInit() {
-    this.randomColor = this.getRandomColor();
-  }
-
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+  ngOnInit() {}
 
   upvote() {
-    this.item.upvotes++;
+    this.itemService.upvoteItem(this.item._id).subscribe(updatedItem => {
+      this.item.upvotes = updatedItem.upvotes;
+    });
   }
 
   downvote() {
-    this.item.upvotes--;
+    this.itemService.downvoteItem(this.item._id).subscribe(updatedItem => {
+      this.item.upvotes = updatedItem.upvotes;
+    });
   }
 }
