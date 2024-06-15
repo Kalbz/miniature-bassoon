@@ -6,6 +6,9 @@ require('dotenv').config({ path: './src/.env' });
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Initialize Firebase Admin
+const admin = require('./firebaseAdmin');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -22,7 +25,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Import routes
 const itemRoutes = require('./routes/itemRoutes');
-app.use('/api', itemRoutes);
+app.use('/api/items', itemRoutes);
 
 // Simple API endpoint
 app.get('/', (req, res) => {

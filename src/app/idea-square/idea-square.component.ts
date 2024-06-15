@@ -17,15 +17,39 @@ export class IdeaSquareComponent implements OnInit {
 
   ngOnInit() {}
 
-  upvote() {
-    this.itemService.upvoteItem(this.item._id).subscribe(updatedItem => {
-      this.item.upvotes = updatedItem.upvotes;
-    });
+  async upvote() {
+    try {
+      const observable = await this.itemService.upvoteItem(this.item._id);
+      observable.subscribe({
+        next: updatedItem => {
+          this.item.upvotes = updatedItem.upvotes;
+          this.item.downvotes = updatedItem.downvotes;
+          this.item.totalVotes = updatedItem.totalVotes;
+        },
+        error: error => {
+          console.error('Error upvoting item:', error);
+        }
+      });
+    } catch (error) {
+      console.error('Error getting upvote observable:', error);
+    }
   }
 
-  downvote() {
-    this.itemService.downvoteItem(this.item._id).subscribe(updatedItem => {
-      this.item.upvotes = updatedItem.upvotes;
-    });
+  async downvote() {
+    try {
+      const observable = await this.itemService.downvoteItem(this.item._id);
+      observable.subscribe({
+        next: updatedItem => {
+          this.item.downvotes = updatedItem.downvotes;
+          this.item.upvotes = updatedItem.upvotes;
+          this.item.totalVotes = updatedItem.totalVotes;
+        },
+        error: error => {
+          console.error('Error downvoting item:', error);
+        }
+      });
+    } catch (error) {
+      console.error('Error getting downvote observable:', error);
+    }
   }
 }

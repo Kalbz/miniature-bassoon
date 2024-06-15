@@ -29,6 +29,7 @@
     "express": "^4.19.2",
     "express-timeout-handler": "^2.2.2",
     "firebase": "^10.12.2",
+    "firebase-admin": "^12.1.1",
     "mongoose": "^8.4.1",
     "ngx-color-picker": "^16.0.0",
     "rxjs": "~7.8.0",

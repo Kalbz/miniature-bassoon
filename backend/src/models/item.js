@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+const voteSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true
+  },
+  voteType: {
+    type: String,
+    enum: ['upvote', 'downvote'],
+    required: true
+  }
+}, { _id: false });
+
 const itemSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -10,6 +22,10 @@ const itemSchema = new mongoose.Schema({
     required: true
   },
   upvotes: {
+    type: Number,
+    default: 0
+  },
+  downvotes: {
     type: Number,
     default: 0
   },
@@ -24,7 +40,8 @@ const itemSchema = new mongoose.Schema({
   color: {
     type: String, // Hexadecimal color code
     default: '#FFFFFF'
-  }
+  },
+  votes: [voteSchema] // Array to track votes by users
 });
 
 module.exports = mongoose.model('Item', itemSchema);

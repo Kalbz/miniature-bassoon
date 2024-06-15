@@ -1,15 +1,15 @@
-// auth.service.ts
 import { Injectable, inject } from '@angular/core';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
-import { Auth, user } from '@angular/fire/auth';
+import { Auth, user, getIdToken } from '@angular/fire/auth';
 import { Observable, from, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
+  private token: string | null = null;
 
   register(email: string, username: string, password: string): Observable<void> {
     const promise = createUserWithEmailAndPassword(
@@ -27,12 +27,11 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<void> {
-    const promise = signInWithEmailAndPassword(
-      this.firebaseAuth, 
-      email, 
-      password
-    ).then(() => {});
-    return from(promise).pipe(
+    return from(signInWithEmailAndPassword(this.firebaseAuth, email, password)).pipe(
+      switchMap(response => from(getIdToken(response.user))),
+      map(token => {
+        this.token = token;
+      }),
       catchError((error) => {
         console.error('Login error:', error);
         return throwError(error);
@@ -42,8 +41,11 @@ export class AuthService {
 
   loginWithGoogle(): Observable<void> {
     const provider = new GoogleAuthProvider();
-    const promise = signInWithPopup(this.firebaseAuth, provider).then(() => {});
-    return from(promise).pipe(
+    return from(signInWithPopup(this.firebaseAuth, provider)).pipe(
+      switchMap(response => from(getIdToken(response.user))),
+      map(token => {
+        this.token = token;
+      }),
       catchError((error) => {
         console.error('Google login error:', error);
         return throwError(error);
@@ -58,12 +60,24 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    const promise = this.firebaseAuth.signOut();
+    const promise = this.firebaseAuth.signOut().then(() => {
+      this.token = null;
+    });
     return from(promise).pipe(
       catchError((error) => {
         console.error('Logout error:', error);
         return throwError(error);
       })
     );
+  }
+
+  async getToken(): Promise<string> {
+    const currentUser = this.firebaseAuth.currentUser
+    console.log(currentUser);
+    if (currentUser) {
+      return await getIdToken(currentUser);
+    } else {
+      throw new Error('No user logged in');
+    }
   }
 }
