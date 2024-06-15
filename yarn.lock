@@ -6503,6 +6503,13 @@ neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+ngx-color-picker@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-color-picker/-/ngx-color-picker-16.0.0.tgz#b962588644fbb67bbbcffaf3252ed340884cdfe7"
+  integrity sha512-Dk2FvcbebD6STZSVzkI5oFHOlTrrNC5bOHh+YVaFgaWuWrVUdVIJm68ocUvTgr/qxTEJjrfcnRnS4wi7BJ2hKg==
+  dependencies:
+    tslib "^2.3.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"

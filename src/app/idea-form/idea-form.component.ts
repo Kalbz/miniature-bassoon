@@ -8,13 +8,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { ItemService } from '../item.service';
 import { Category } from '../categories.interface';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ColorPickerModule } from 'ngx-color-picker';
+
 
 @Component({
   selector: 'app-idea-form',
   templateUrl: './idea-form.component.html',
   styleUrls: ['./idea-form.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule, MatInputModule, MatButtonModule, MatSelectModule]
+  imports: [CommonModule, FormsModule, MatDialogModule, MatInputModule, MatButtonModule, MatSelectModule, ColorPickerModule]
 })
 export class IdeaFormComponent implements OnInit {
   name: string = '';
@@ -23,6 +25,8 @@ export class IdeaFormComponent implements OnInit {
   imageUrl: string = '';
   emoji: string = '';
   errorMessage: string = '';
+  color: string = '#ffffff'; // Default color
+
 
   availableCategories: Category[] = [
     { id: 1, name: 'Technology' },
@@ -50,7 +54,8 @@ export class IdeaFormComponent implements OnInit {
       description: this.description,
       upvotes: 0,
       categories: this.categories,
-      emoji: this.emoji
+      emoji: this.emoji,
+      color: this.color,
     };
     console.log('New item:', newItem);
     this.itemService.createItem(newItem).subscribe({

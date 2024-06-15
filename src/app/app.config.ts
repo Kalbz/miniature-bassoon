@@ -6,6 +6,7 @@ import { provideRouter } from "@angular/router";
 import { routes } from "./app.routes";
 import { firebaseConfig } from "../environments/firebase.config";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 
 
@@ -16,7 +17,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(BrowserAnimationsModule), // Import BrowserAnimationsModule here
     provideHttpClient(),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideAuth(() => getAuth())
+    provideAuth(() => getAuth()),
+    importProvidersFrom(ColorPickerModule) // Import ColorPickerModule here
     
   ]
 };

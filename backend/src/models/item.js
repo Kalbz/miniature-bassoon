@@ -23,7 +23,7 @@ const itemSchema = new mongoose.Schema({
   },
   color: {
     type: String, // Hexadecimal color code
-    default: '#000000'
+    default: '#FFFFFF'
   }
 });
 

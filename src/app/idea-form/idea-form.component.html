@@ -20,6 +20,10 @@
     <mat-label>Emoji</mat-label>
     <input matInput [(ngModel)]="emoji">
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Color</mat-label>
+    <input matInput [(colorPicker)]="color" [style.background]="color">
+  </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
