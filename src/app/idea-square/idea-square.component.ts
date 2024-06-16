@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemService } from '../item.service';
+import { IdeaFormComponent } from '../idea-form/idea-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-idea-square',
@@ -13,7 +15,7 @@ export class IdeaSquareComponent implements OnInit {
   @Input() item: any;
   @Input() color: string = '#FFFFFF'; // Default to white
 
-  constructor(private itemService: ItemService) {}
+  constructor(private itemService: ItemService, public dialog: MatDialog) {}
 
   ngOnInit() {}
 
@@ -52,4 +54,11 @@ export class IdeaSquareComponent implements OnInit {
       console.error('Error getting downvote observable:', error);
     }
   }
+
+  edit() {  
+    const dialogRef = this.dialog.open(IdeaFormComponent, {
+      width: '250px'
+    });
+  }
+
 }
