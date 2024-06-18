@@ -40,4 +40,8 @@ export class RegisterComponent {
       }
     });
   }
+
+  loginAccount() {
+    this.router.navigateByUrl('/login');
+  }
 }

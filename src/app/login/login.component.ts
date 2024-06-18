@@ -52,4 +52,8 @@ export class LoginComponent {
       }
     });
   }
+
+  regsiterAccount() {
+    this.router.navigateByUrl('/register');
+  }
 }

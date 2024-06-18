@@ -1,3 +1,4 @@
+// src/app/app.component.ts
 import { Component, inject, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
   contextMenuVisible = false;
   contextMenuPosition = { x: 0, y: 0 };
   isLoggedIn$: Observable<boolean>;
-  isLoginRoute: boolean = false;
+  isLoginOrRegisterRoute: boolean = false;
 
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.isLoginRoute = event.url === '/login';
+      this.isLoginOrRegisterRoute = event.url === '/login' || event.url === '/register';
     });
   }
 

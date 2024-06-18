@@ -1,20 +1,25 @@
-<h1>Register Account</h1>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
+<!-- src/app/register/register.component.html -->
+<div class="register-container">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h1>Register</h1>
+    <div class="input-group">
       <input type="text" formControlName="username" placeholder="Username">
     </div>
-    <div>
+    <div class="input-group">
       <input type="email" formControlName="email" placeholder="Email">
     </div>
-      <div>
-          <input type="password" formControlName="password" placeholder="Password">
-      </div>
-    <div>
-      <button class="regButton" type="submit">Register</button>
+    <div class="input-group">
+      <input type="password" formControlName="password" placeholder="Password">
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      <div>Registration failed</div>
+    </div>
+    <div class="input-group">
+      <button type="submit" class="register-btn">Register</button>
+    </div>
+    <div class="input-group">
+      <button (click)="loginAccount()" class="login-btn">Login Instead</button>
     </div>
   </form>
-
-
-<div *ngIf="errorMessage">
-  <div>{{ errorMessage }}</div>
-
+</div>

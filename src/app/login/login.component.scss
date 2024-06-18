@@ -11,12 +11,14 @@ body, html {
   background-color: $background-color;
 }
 
+
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  position: relative;
   background-color: $background-color;
 }
 
@@ -38,7 +40,7 @@ form {
 }
 
 .input-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem; /* Reduce the margin-bottom to bring elements closer together */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -49,6 +51,7 @@ form {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 4px $shadow-color;
+    margin: 0.25rem 0; /* Reduce the margin to bring inputs closer */
     box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
   }
 
@@ -62,13 +65,13 @@ form {
   }
 
   .primary-btn {
-    background-color: #FFD700;
+    background-color: $primary-color;
     color: #fff;
     box-shadow: 0 2px 4px $shadow-color;
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: darken(#FFD700, 10%);
+      background-color: darken($primary-color, 10%);
     }
   }
 
@@ -80,6 +83,17 @@ form {
 
     &:hover {
       background-color: darken(#4285F4, 10%);
+    }
+  }
+
+  .register-btn {
+    background-color: #88ff00;
+    color: #fff;
+    box-shadow: 0 2px 4px $shadow-color;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken(#88ff00, 10%);
     }
   }
 }

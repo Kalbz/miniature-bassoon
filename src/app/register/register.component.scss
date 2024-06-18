@@ -1,3 +1,94 @@
-.regButton {
-    color: red;
+/* src/app/register/register.component.scss */
+$primary-color: #FFD700;
+$shadow-color: rgba(0, 0, 0, 0.2);
+$background-color: #FFD700;
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: $background-color;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  background-color: $background-color;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px $shadow-color;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-group {
+  margin-bottom: 0.5rem; /* Reduce the margin-bottom to bring elements closer together */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px $shadow-color;
+    margin: 0.25rem 0; /* Reduce the margin to bring inputs closer */
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+  }
+
+  button {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .register-btn {
+    background-color: #88ff00;
+    color: #fff;
+    box-shadow: 0 2px 4px $shadow-color;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken(#88ff00, 10%);
+    }
+  }
+
+  .login-btn {
+    background-color: #FFD700;
+    color: #fff;
+    box-shadow: 0 2px 4px $shadow-color;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken(#FFD700, 10%);
+    }
+  }
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
 }
