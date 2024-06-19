@@ -10,7 +10,6 @@ import { Category } from '../categories.interface';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ColorPickerModule } from 'ngx-color-picker';
 
-
 @Component({
   selector: 'app-idea-form',
   templateUrl: './idea-form.component.html',
@@ -22,11 +21,9 @@ export class IdeaFormComponent implements OnInit {
   name: string = '';
   description: string = '';
   categories: string[] = [];
-  imageUrl: string = '';
   emoji: string = '';
   errorMessage: string = '';
   color: string = '#ffffff'; // Default color
-
 
   availableCategories: Category[] = [
     { id: 1, name: 'Technology' },
@@ -42,7 +39,15 @@ export class IdeaFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data && this.data.item) {
+      this.name = this.data.item.name;
+      this.description = this.data.item.description;
+      this.categories = this.data.item.categories;
+      this.emoji = this.data.item.emoji;
+      this.color = this.data.item.color;
+    }
+  }
 
   onCancel(): void {
     this.dialogRef.close();
@@ -50,30 +55,43 @@ export class IdeaFormComponent implements OnInit {
 
   onSubmit(): void {
     const newItem = {
+      id: this.data?.item?._id, // Ensure the id is correctly set here
       name: this.name,
       description: this.description,
-      upvotes: 0,
+      upvotes: this.data?.item?.upvotes || 0,
       categories: this.categories,
       emoji: this.emoji,
       color: this.color,
     };
-    console.log('New item:', newItem);
-    this.itemService.createItem(newItem).subscribe({
+
+    if (this.data && this.data.item) {
+      this.updateItem(newItem);
+    } else {
+      this.createItem(newItem);
+    }
+  }
+
+  private createItem(item: any): void {
+    this.itemService.createItem(item).subscribe({
       next: item => {
         console.log('Added item:', item);
         this.dialogRef.close(item);
-        this.itemService.getItems().subscribe({
-          next: items => {
-            console.log('Items:', items);
-          },
-          error: error => {
-            this.errorMessage = 'Failed to load items from the backend';
-            console.error('Error:', error);
-          }
-        });
       },
       error: error => {
         this.errorMessage = 'Failed to add item';
+        console.error('Error:', error);
+      }
+    });
+  }
+
+  private updateItem(item: any): void {
+    this.itemService.updateItem(item).subscribe({
+      next: updatedItem => {
+        console.log('Updated item:', updatedItem);
+        this.dialogRef.close(updatedItem);
+      },
+      error: error => {
+        this.errorMessage = 'Failed to update item';
         console.error('Error:', error);
       }
     });

@@ -41,7 +41,11 @@ const itemSchema = new mongoose.Schema({
     type: String, // Hexadecimal color code
     default: '#FFFFFF'
   },
-  votes: [voteSchema] // Array to track votes by users
+  votes: [voteSchema], // Array to track votes by users
+  creator: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Item', itemSchema);

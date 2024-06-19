@@ -1,10 +1,9 @@
 // src/app/services/item.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subject, from } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +20,23 @@ export class ItemService {
   }
 
   createItem(item: any): Observable<any> {
-    return this.http.post(this.apiUrl, item).pipe(
-      tap(newItem => this.newItemSubject.next(newItem)) // Notify subscribers of the new item
+    return from(this.authService.getToken()).pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(this.apiUrl, item, { headers }).pipe(
+          tap(newItem => this.newItemSubject.next(newItem)) // Notify subscribers of the new item
+        );
+      })
     );
   }
 
   updateItem(item: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${item.id}`, item);
+    return from(this.authService.getToken()).pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.put(`${this.apiUrl}/${item.id}`, item, { headers });
+      })
+    );
   }
 
   async upvoteItem(id: string): Promise<Observable<any>> {
@@ -43,5 +52,4 @@ export class ItemService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.patch(`${this.apiUrl}/${id}/downvote`, {}, { headers });
   }
-  
 }

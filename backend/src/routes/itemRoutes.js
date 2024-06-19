@@ -4,8 +4,11 @@ const Item = require('../models/item');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 // Create an item
-router.post('/', async (req, res) => {
-  const newItem = new Item(req.body);
+router.post('/', authMiddleware, async (req, res) => {
+  const newItem = new Item({
+    ...req.body,
+    creator: req.user.id // Set the creator to the authenticated user's ID
+  });
   try {
     const savedItem = await newItem.save();
     res.status(201).json(savedItem);
@@ -21,6 +24,33 @@ router.get('/', async (req, res) => {
     res.json(items);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+// Update an item
+router.put('/:id', authMiddleware, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+
+    // Check if the authenticated user is the creator of the item
+    if (item.creator !== req.user.id) {
+      return res.status(403).json({ message: 'You are not authorized to edit this item' });
+    }
+
+    // Update item properties
+    item.name = req.body.name || item.name;
+    item.description = req.body.description || item.description;
+    item.categories = req.body.categories || item.categories;
+    item.emoji = req.body.emoji || item.emoji;
+    item.color = req.body.color || item.color;
+
+    const updatedItem = await item.save();
+    res.json(updatedItem);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 
@@ -93,12 +123,18 @@ router.patch('/:id/downvote', authMiddleware, async (req, res) => {
 });
 
 // Update an item's color
-router.patch('/:id/color', async (req, res) => {
+router.patch('/:id/color', authMiddleware, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) {
       return res.status(404).json({ message: 'Item not found' });
     }
+
+    // Check if the authenticated user is the creator of the item
+    if (item.creator !== req.user.id) {
+      return res.status(403).json({ message: 'You are not authorized to edit this item' });
+    }
+
     item.color = req.body.color;
     const updatedItem = await item.save();
     res.json(updatedItem);

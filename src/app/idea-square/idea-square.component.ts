@@ -55,9 +55,16 @@ export class IdeaSquareComponent implements OnInit {
     }
   }
 
-  edit() {  
+  edit() {
     const dialogRef = this.dialog.open(IdeaFormComponent, {
-      width: '250px'
+      width: '250px',
+      data: { item: this.item }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.item = result;
+      }
     });
   }
 
