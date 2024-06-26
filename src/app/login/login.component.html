@@ -8,6 +8,12 @@
     <div class="input-group">
       <input type="password" formControlName="password" placeholder="Password">
     </div>
+    <div class="input-group">
+      <label>
+        <input type="checkbox" formControlName="rememberMe">
+        Remember me
+      </label>
+    </div>
     <div *ngIf="errorMessage" class="error-message">
       <div>Invalid email and/or password</div>
     </div>  
