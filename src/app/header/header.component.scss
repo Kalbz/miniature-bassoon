@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border: 1px solid black;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .buttons button {
+    padding: 10px 20px;
+    border: 2px solid green;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .buttons button:hover {
+    background-color: lightgreen;
+  }
+  
+  .logo img {
+    height: 50px; /* Adjust the height as needed */
+    width: auto;
+  }
+  

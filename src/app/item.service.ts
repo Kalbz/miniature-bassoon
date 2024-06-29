@@ -30,6 +30,15 @@ export class ItemService {
     );
   }
 
+  deleteItem(id: string): Observable<any> {
+    return from(this.authService.getToken()).pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.delete(`${this.apiUrl}/${id}`, { headers });
+      })
+    );
+  }
+
   updateItem(item: any): Observable<any> {
     return from(this.authService.getToken()).pipe(
       switchMap(token => {
@@ -52,4 +61,5 @@ export class ItemService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.patch(`${this.apiUrl}/${id}/downvote`, {}, { headers });
   }
+
 }

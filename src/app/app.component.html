@@ -6,6 +6,7 @@
   <!-- Show main application components when logged in and not on the login or register route -->
   <ng-container *ngIf="!isLoginOrRegisterRoute && (isLoggedIn$ | async)">
     <router-outlet></router-outlet>
+    <app-header></app-header>
     <app-item-list></app-item-list>
     <app-context-menu *ngIf="contextMenuVisible"
       [ngStyle]="{'--x': contextMenuPosition.x + 'px', '--y': contextMenuPosition.y + 'px'}"

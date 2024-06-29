@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { getRedirectResult } from 'firebase/auth';
+import { HeaderComponent } from './header/header.component';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { getRedirectResult } from 'firebase/auth';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, ContextMenuComponent, ItemListComponent, RouterOutlet, RouterLink],
+  imports: [CommonModule, ContextMenuComponent, ItemListComponent, RouterOutlet, RouterLink, HeaderComponent],
   providers: [AuthService]
 })
 export class AppComponent implements OnInit {

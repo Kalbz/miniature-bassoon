@@ -73,11 +73,23 @@ export class AuthService {
 
   async getToken(): Promise<string> {
     const currentUser = this.firebaseAuth.currentUser
-    console.log(currentUser);
+    console.log(currentUser, "this is current user");
     if (currentUser) {
       return await getIdToken(currentUser);
     } else {
       throw new Error('No user logged in');
     }
   }
+
+  getUser(): any {
+    const currentUser = this.firebaseAuth.currentUser;
+    if (currentUser) {
+      return { id: currentUser.uid, displayName: currentUser.displayName, email: currentUser.email };
+    } else {
+      return null;
+    }
+  }
+  
+  
+
 }

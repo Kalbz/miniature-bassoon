@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ItemService } from '../item.service';
 import { IdeaFormComponent } from '../idea-form/idea-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-idea-square',
@@ -14,10 +15,29 @@ import { MatDialog } from '@angular/material/dialog';
 export class IdeaSquareComponent implements OnInit {
   @Input() item: any;
   @Input() color: string = '#FFFFFF'; // Default to white
+  currentUser: any; // Variable to store the current user
+  editMode: boolean = false;
 
-  constructor(private itemService: ItemService, public dialog: MatDialog) {}
+  
 
-  ngOnInit() {}
+  constructor(
+    private itemService: ItemService, 
+    public dialog: MatDialog,
+    private authService: AuthService,
+  ) {}
+
+  ngOnInit() {
+    this.currentUser = this.authService.getUser();
+    this.compareUser();
+  }
+
+  compareUser() {
+    if (this.currentUser && this.currentUser.id === this.item.creator) {
+      this.editMode = true;
+    } else {
+      this.editMode = false;
+    }
+  }
 
   async upvote() {
     try {
@@ -56,16 +76,30 @@ export class IdeaSquareComponent implements OnInit {
   }
 
   edit() {
+
+    
     const dialogRef = this.dialog.open(IdeaFormComponent, {
       width: '250px',
-      data: { item: this.item }
+      data: { item: this.item },
+      
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.item = result;
       }
     });
   }
+
+  delete() {
+    this.itemService.deleteItem(this.item._id).subscribe({
+      next: () => {
+        console.log('Item deleted');
+      },
+      error: error => {
+        console.error('Error deleting item:', error);
+      }
+    });
+  }
+
 
 }
