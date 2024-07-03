@@ -1,39 +1,50 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    border: 1px solid black;
-  }
-  
-  .buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .buttons button {
-    padding: 10px 20px;
-    border: 2px solid green;
-    background-color: white;
-    cursor: pointer;
-  }
-  
-  .buttons button:hover {
-    background-color: lightgreen;
-  }
-  
-  .logo img {
-    height: 50px; /* Adjust the height as needed */
-    width: auto;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1px solid black;
+  background-color: #ffb700; /* Yellow color to match the logo */
+}
+
+.logo {
+  height: 70px; /* Adjust the height of the logo container as needed */
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 100%; /* Make the image fill the container height */
+  width: auto;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  border: 2px solid #ffb700; /* Border color to match the yellow logo color */
+  background-color: rgb(207, 145, 0);
+  color: black; /* Text color to contrast with yellow */
+  cursor: pointer;
+  font-weight: bold; /* Bold text for better visibility */
+  border-radius: 5px; /* Rounded corners for a softer look */
+  transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+.buttons button:hover {
+  background-color: #ffb700; /* Background color change on hover to yellow */
+  color: white; /* Text color change on hover to white */
+}

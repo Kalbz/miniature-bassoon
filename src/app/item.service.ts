@@ -19,6 +19,10 @@ export class ItemService {
     return this.http.get(this.apiUrl);
   }
 
+  getItem(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
   createItem(item: any): Observable<any> {
     return from(this.authService.getToken()).pipe(
       switchMap(token => {

@@ -27,6 +27,10 @@ mongoose.connect(process.env.MONGODB_URI)
 const itemRoutes = require('./routes/itemRoutes');
 app.use('/api/items', itemRoutes);
 
+const commentRoutes = require('./routes/commentsRoutes');
+app.use('/api/comments', commentRoutes);
+
+
 // Simple API endpoint
 app.get('/', (req, res) => {
   res.send('Hello World!');

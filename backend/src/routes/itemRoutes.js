@@ -47,6 +47,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single item by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Update an item
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
@@ -161,6 +174,7 @@ router.patch('/:id/color', authMiddleware, async (req, res) => {
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+
 });
 
 module.exports = router;

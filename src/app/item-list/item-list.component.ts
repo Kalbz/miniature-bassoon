@@ -7,6 +7,8 @@ import { interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { IdeaSquareComponent } from '../idea-square/idea-square.component';
+import { MatDialog } from '@angular/material/dialog';  // Import MatDialog
+import { ItemDetailsComponent } from '../item-details/item-details.component'; // Import ItemDetailsComponent
 
 @Component({
   selector: 'app-item-list',
@@ -23,7 +25,8 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private dialog: MatDialog // Inject MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -82,5 +85,17 @@ export class ItemListComponent implements OnInit {
 
   getItemColor(itemId: string): string {
     return this.itemColors.get(itemId) || '#FFFFFF'; // Default to white if no color found
+  }
+
+  kek(itemId: string): void {
+    const dialogRef = this.dialog.open(ItemDetailsComponent, {
+      width: '80%',
+      height: '80%',
+      data: { itemId }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Dialog closed');
+    });
   }
 }

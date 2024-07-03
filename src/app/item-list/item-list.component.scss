@@ -1,11 +1,15 @@
 .items-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // Change to center to align items in the center
+  gap: 16px; // Add a gap between items
+  padding: 5%; // Add padding to ensure items are not too close to the edges
+  background-color: #f9c02f;
+}
+
+.items-grid app-idea-square {
+  flex: 1 1 calc(25% - 32px); // Adjust the percentage for better responsiveness
+  box-sizing: border-box;
+  max-width: 300px; // Optional: Limit the max width of each item
   
-  .items-grid app-idea-square {
-    flex: 1 1 calc(33.333% - 16px); /* Adjust the percentage as needed */
-    box-sizing: border-box;
-  }
-  
+}

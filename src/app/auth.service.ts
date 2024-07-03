@@ -3,6 +3,8 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndP
 import { Auth, user, getIdToken } from '@angular/fire/auth';
 import { Observable, from, throwError } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
+import { UserInterface } from './user.interface'; // Adjust the path as needed
+
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +33,7 @@ export class AuthService {
       switchMap(response => from(getIdToken(response.user))),
       map(token => {
         this.token = token;
+        localStorage.setItem('token', token); // Store the token in localStorage
       }),
       catchError((error) => {
         console.error('Login error:', error);
@@ -38,13 +41,14 @@ export class AuthService {
       })
     );
   }
-
+  
   loginWithGoogle(): Observable<void> {
     const provider = new GoogleAuthProvider();
     return from(signInWithPopup(this.firebaseAuth, provider)).pipe(
       switchMap(response => from(getIdToken(response.user))),
       map(token => {
         this.token = token;
+        localStorage.setItem('token', token); // Store the token in localStorage
       }),
       catchError((error) => {
         console.error('Google login error:', error);
@@ -62,6 +66,7 @@ export class AuthService {
   logout(): Observable<void> {
     const promise = this.firebaseAuth.signOut().then(() => {
       this.token = null;
+      localStorage.removeItem('token'); // Remove the token from localStorage
     });
     return from(promise).pipe(
       catchError((error) => {
@@ -70,12 +75,20 @@ export class AuthService {
       })
     );
   }
-
+  
   async getToken(): Promise<string> {
-    const currentUser = this.firebaseAuth.currentUser
-    console.log(currentUser, "this is current user");
+    if (!this.token) {
+      this.token = localStorage.getItem('token');
+    }
+    if (this.token) {
+      return this.token;
+    }
+    const currentUser = this.firebaseAuth.currentUser;
     if (currentUser) {
-      return await getIdToken(currentUser);
+      const token = await getIdToken(currentUser);
+      this.token = token;
+      localStorage.setItem('token', token); // Store the token in localStorage
+      return token;
     } else {
       throw new Error('No user logged in');
     }
@@ -84,7 +97,10 @@ export class AuthService {
   getUser(): any {
     const currentUser = this.firebaseAuth.currentUser;
     if (currentUser) {
-      return { id: currentUser.uid, displayName: currentUser.displayName, email: currentUser.email };
+      return { 
+        id: currentUser.uid, 
+        displayName: currentUser.displayName, 
+        email: currentUser.email };
     } else {
       return null;
     }

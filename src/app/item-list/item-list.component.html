@@ -1,6 +1,6 @@
 <div>
   <div class="items-grid">
-    <app-idea-square *ngFor="let item of items" [color]="getItemColor(item._id)" [item]="item"></app-idea-square>
+    <app-idea-square *ngFor="let item of items" (click)="kek(item._id)" [color]="getItemColor(item._id)" [item]="item"></app-idea-square>
   </div>
 
   <div *ngIf="errorMessage" class="error">
