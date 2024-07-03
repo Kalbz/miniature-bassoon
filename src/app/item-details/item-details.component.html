@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="modal-header">
-    <span *ngIf="item">{{ item.name }}</span>
+    <span>{{ item?.name }}</span>
     <span class="spacer"></span>
     <button mat-icon-button (click)="closeModal()">
       <mat-icon>close</mat-icon>

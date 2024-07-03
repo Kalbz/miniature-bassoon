@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../auth.service';
+import { UserInterface } from '../user.interface';
 
 @Component({
   selector: 'app-item-details',
@@ -35,6 +37,7 @@ export class ItemDetailsComponent implements OnInit {
   commentForm: FormGroup;
 
   constructor(
+    private authService: AuthService,
     private commentService: CommentService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -49,27 +52,33 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('Initializing ItemDetailsComponent with data:', this.data);
     const itemId = this.data.itemId;
     if (itemId) {
-      this.itemService.getItem(itemId).subscribe(
-        data => {
-          this.item = data;
-        },
-        error => {
-          console.error('Error retrieving item:', error);
-        }
-      );
-
+      this.loadItem(itemId);
       this.loadComments(itemId);
     } else {
       console.error('Error: itemId is null');
     }
   }
 
+  loadItem(itemId: string): void {
+    this.itemService.getItem(itemId).subscribe(
+      data => {
+        this.item = data;
+        console.log('Loaded item:', this.item);
+      },
+      error => {
+        console.error('Error retrieving item:', error);
+      }
+    );
+  }
+
   loadComments(itemId: string): void {
     this.commentService.getComments(itemId).subscribe(
       comments => {
         this.comments = comments;
+        console.log('Loaded comments:', this.comments);
       },
       error => {
         console.error('Error retrieving comments:', error);
@@ -78,30 +87,39 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   postComment(): void {
-    const newComment: Comment = {
-      id: '',
-      itemId: this.data.itemId,
-      userId: '', // This should be the current user's ID, fetched from the authentication service
-      userName: '', // This should be the current user's name, fetched from the authentication service
-      content: this.commentForm.value.content,
-      timestamp: new Date()
-    };
-
-    this.commentService.postComment(newComment).subscribe(
-      comment => {
-        this.comments.push(comment);
-        this.commentForm.reset();
-      },
-      error => {
-        console.error('Error posting comment:', error);
-      }
-    );
+    const content = this.commentForm.value.content;
+    const user: UserInterface | null = this.authService.getUser();
+    if (user) {
+      const newComment: Comment = {
+        id: '',
+        itemId: this.data.itemId,
+        userId: user.id,
+        userName: user.username,
+        content: content,
+        timestamp: new Date()
+      };
+      console.log('Posting comment:', newComment); // Add log
+      this.commentService.postComment(newComment).subscribe(
+        comment => {
+          this.comments.push(comment);
+          this.commentForm.reset();
+          console.log('Posted comment:', comment); // Add log
+        },
+        error => {
+          console.error('Error posting comment:', error);
+        }
+      );
+    } else {
+      console.error('User not logged in');
+    }
   }
+  
 
   deleteComment(id: string): void {
     this.commentService.deleteComment(id).subscribe(
       () => {
         this.comments = this.comments.filter(comment => comment.id !== id);
+        console.log('Deleted comment with id:', id);
       },
       error => {
         console.error('Error deleting comment:', error);
